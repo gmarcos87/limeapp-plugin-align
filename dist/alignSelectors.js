@@ -1,0 +1,12 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var getAll = exports.getAll = function getAll(state) {
+  return state.align;
+};
+var getSelectedHost = exports.getSelectedHost = function getSelectedHost(state) {
+  return state.meta.selectedHost;
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9hbGlnblNlbGVjdG9ycy5qcyJdLCJuYW1lcyI6WyJnZXRBbGwiLCJzdGF0ZSIsImFsaWduIiwiZ2V0U2VsZWN0ZWRIb3N0IiwibWV0YSIsInNlbGVjdGVkSG9zdCJdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBTyxJQUFNQSwwQkFBUyxTQUFUQSxNQUFTLENBQUNDLEtBQUQ7QUFBQSxTQUFXQSxNQUFNQyxLQUFqQjtBQUFBLENBQWY7QUFDQSxJQUFNQyw0Q0FBa0IsU0FBbEJBLGVBQWtCLENBQUNGLEtBQUQ7QUFBQSxTQUFXQSxNQUFNRyxJQUFOLENBQVdDLFlBQXRCO0FBQUEsQ0FBeEIiLCJmaWxlIjoiYWxpZ25TZWxlY3RvcnMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgY29uc3QgZ2V0QWxsID0gKHN0YXRlKSA9PiBzdGF0ZS5hbGlnbjtcbmV4cG9ydCBjb25zdCBnZXRTZWxlY3RlZEhvc3QgPSAoc3RhdGUpID0+IHN0YXRlLm1ldGEuc2VsZWN0ZWRIb3N0OyJdfQ==
