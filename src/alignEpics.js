@@ -42,39 +42,39 @@ const allStationsLoad = (action$, { getState }, { wsAPI }  ) =>
   action$.ofType(STATIONS_LOAD)
     .mergeMap(() => getStations(wsAPI, getState().meta.sid))
       .map((payload) => ({ type: STATIONS_LOAD_SUCCESS, payload }))
-      .catch(error => Observable.of({
+      .catch(error => ([{
         type: 'NOTIFICATION',
-        payload: { msg: 'Not stations in interfaces' },
-        error: true
-      }));
+        payload: { msg: 'Not stations in interfaces', error }
+      }]));
 
 // CHANGE INTEFACE -> DIspatch get station by interface and select best signal
 const ifaceChange = (action$, { getState }, { wsAPI } ) =>
   action$.ofType(IFACE_CHANGE)
-    .mergeMap((action) => getIfaceStation(wsAPI, getState().meta.sid, action.payload.iface))
-    .map( payload => payload.nodes)
-    .map((payload) => ({ type: STATIONS_LOAD_SUCCESS, payload }))
-    .catch(error => Observable.of({
-      type: 'NOTIFICATION',
-      payload: { msg: 'Not stations in interface' },
-      error: true
-    }));
+    .mergeMap((action) => getIfaceStation(wsAPI, getState().meta.sid, action.payload.iface)
+      .map((payload) => ({ type: STATIONS_LOAD_SUCCESS, payload: payload.nodes }))
+      .catch(error => ([{
+        type: 'NOTIFICATION',
+        payload: { msg: 'Not stations in interface', error }
+      }])));
 
 // INIT ALIGN -> Select best node, interface and start timer
 const initAlign = (action$, { getState } ) =>
   action$.ofType(STATIONS_LOAD_SUCCESS)
     .map(action => action.payload)
     .map(payload => {
+      //Select most active node as default
       if (typeof getState().rx.data.most_active !== 'undefined'){
-        return payload.filter(x => x.mac === getState().rx.data.most_active.mac)[0];
+        if (payload.filter(x => x.mac === getState().rx.data.most_active.mac).length > 0) {
+          return payload.filter(x => x.mac === getState().rx.data.most_active.mac)[0];
+        }
       }
+      //Or select best node if not found most active node.
       return payload.sort((x, y) => x.signal + y.signal)[0];
     })
     .mergeMap((res) => Observable.from([
           ({ type: STATION_SET, payload: res }),
           ({ type: IFACE_SET, payload: res.iface }),
           ({ type: TIMER_START })]));
-
 
 // GET_SIGNAL -> Update current signal and nodes
 const getSignal = ( action$, { getState}, { wsAPI } ) =>

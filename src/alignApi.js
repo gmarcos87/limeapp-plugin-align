@@ -1,6 +1,6 @@
 export const getIfaceStation = (api, sid, iface) => {
-  return new Promise((res,rej) => {
-    api.call(sid, 'get_iface_stations', { iface })
+  return api.call(sid, 'get_iface_stations', { iface })
+      .map(x => x.stations)
       .map(data => Object.keys(data).map((key, index)=>data[key]).reduce((x,y) => x.concat(y), []))
       .map((nodes) => nodes.map(node => {
         if (node.signal) {
@@ -9,11 +9,10 @@ export const getIfaceStation = (api, sid, iface) => {
         return node;
       }))
       .map((nodes) => { return { iface, nodes }; })
-      .subscribe( x => {
-        if (x.nodes.length > 0) { res(x); }
-        rej(x);
+      .map( x => {
+        if (x.nodes.length > 0) { return x; }
+        throw new Error();
       });
-  });
 };
 
 export const getStationSignal = (api, sid, node) => {
