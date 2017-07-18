@@ -23,8 +23,10 @@ export const reducer = (state = initialState, { type, payload, meta }) => {
 
     case STATION_SET:
       return Object.assign({}, state, {currentReading: payload});
+
     case IFACE_SET:
       return Object.assign({}, state, {stations: state.stations.filter(x => x.iface === payload)});
+
     case SIGNAL_GET_SUCCESS:
       if (state.currentReading.mac === payload.station) {
         let newCurrentReading = Object.assign({}, state.currentReading, {signal: payload.signal});
@@ -37,6 +39,7 @@ export const reducer = (state = initialState, { type, payload, meta }) => {
         return Object.assign({}, state, {currentReading: newCurrentReading,  stations:newStations});
       }
       return state;
+      
     default:
       return state;
   }
