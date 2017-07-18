@@ -61,10 +61,13 @@ const ifaceChange = (action$, { getState }, { wsAPI } ) =>
     }));
 
 // INIT ALIGN -> Select best node, interface and start timer
-const initAlign = (action$ ) =>
+const initAlign = (action$, { getState } ) =>
   action$.ofType(STATIONS_LOAD_SUCCESS)
     .map(action => action.payload)
     .map(payload => {
+      if (typeof getState().rx.data.most_active !== 'undefined'){
+        return payload.filter(x => x.mac === getState().rx.data.most_active.mac)[0];
+      }
       return payload.sort((x, y) => x.signal + y.signal)[0];
     })
     .mergeMap((res) => Observable.from([
