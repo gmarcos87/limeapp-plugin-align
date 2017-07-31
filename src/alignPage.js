@@ -14,6 +14,19 @@ colorScale.setConfig({
   inputEnd:100
 });
 
+//Eperimental text-to-speech
+let synth = window.speechSynthesis;
+let voices = synth.getVoices();
+
+const speech = (text, lang, voices, synth) => {
+  let utterThis = new SpeechSynthesisUtterance(text);
+  utterThis.pitch = 0.9;
+  utterThis.rate = 2.2;
+  utterThis.voice = voices.filter(x => x.name === lang)[0];
+  synth.speak(utterThis);
+};
+
+
 const style = {
   signal: {
     fontSize: '20vh',
@@ -45,6 +58,7 @@ class Align extends Component {
   }
 
   render(state) {
+    speech(state.alignData.currentReading.signal*-1 || 0, 'es-ES', voices, synth);
     return (
       <div className="container" style={{paddingTop:'100px'}}>
         <div className="row">
