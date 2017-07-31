@@ -1,6 +1,6 @@
 {
   "name": "@libremesh/limeapp-plugin-align",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Align module for LiMe App",
   "main": "dist/index.js",
   "scripts": {
